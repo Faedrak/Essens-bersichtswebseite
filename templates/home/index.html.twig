@@ -14,7 +14,7 @@
                     <p class="card-text">Telefon Nummer: {{ restaurant.TelefonNr }}</p>
                     <p class="card-text">Mobil: {{ restaurant.Mobil }}</p>
                     <p class="card-text">Straße: {{ restaurant.Straße }} {{ restaurant.HausNr }}</p>
-                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                    <a href="{{ path('gerichte', {id: restaurant.id})}}" class="btn btn-primary">Zeige Gerichte</a>
                 </div>
             </div>
         </div>
