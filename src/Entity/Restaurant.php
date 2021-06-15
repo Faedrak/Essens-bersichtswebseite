@@ -45,9 +45,10 @@ class Restaurant
     private $HausNr;
 
     /**
-     * @ORM\OneToMany(targetEntity=Gericht::class, mappedBy="Restaurant")
+     * @ORM\OneToMany(targetEntity=Gericht::class, mappedBy="restaurant")
      */
     private $Gerichte;
+
 
     public function __construct()
     {

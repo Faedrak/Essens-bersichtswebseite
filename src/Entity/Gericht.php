@@ -31,7 +31,8 @@ class Gericht
      * @ORM\ManyToOne(targetEntity=Restaurant::class, inversedBy="Gerichte")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $Restaurant;
+    private $restaurant;
+
 
     public function getId(): ?int
     {
@@ -64,12 +65,12 @@ class Gericht
 
     public function getRestaurant(): ?Restaurant
     {
-        return $this->Restaurant;
+        return $this->restaurant;
     }
 
-    public function setRestaurant(?Restaurant $Restaurant): self
+    public function setRestaurant(?Restaurant $restaurant): self
     {
-        $this->Restaurant = $Restaurant;
+        $this->restaurant = $restaurant;
 
         return $this;
     }

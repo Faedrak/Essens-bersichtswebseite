@@ -29,12 +29,13 @@ class HomeController extends AbstractController
 
         $gericht = null;
 
+
+
         if($restaurant instanceof Restaurant){
             $gericht = $restaurant->getGerichte();
-            if($gericht instanceof Gericht){
-            }
         }
 
+        dump($gericht);
         return $this->render('home/gerichte.html.twig', [
             'gerichte' => $gericht
         ]);
