@@ -8,10 +8,10 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class CartContoller extends AbstractController
 {
-    #[Route('/test', name: 'test')]
+    #[Route('/cart', name: 'cart')]
     public function index(): Response
     {
-        return $this->render('cart/index.html.twig', [
+        return $this->render('cart/cart.html.twig', [
             'aktuelleZeiteinfach' => date("Y"),
         ]);
     }
