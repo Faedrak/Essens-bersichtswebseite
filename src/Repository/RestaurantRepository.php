@@ -19,6 +19,20 @@ class RestaurantRepository extends ServiceEntityRepository
         parent::__construct($registry, Restaurant::class);
     }
 
+    public function gibtAlleRestaurantsHer(){
+
+        $em = $this->getEntityManager();
+
+        $sql = $em->createQuery('
+            SELECT r FROM App\Entity\Restaurant r
+        ');
+
+        return $sql->getResult();
+
+
+    }
+
+
     // /**
     //  * @return Restaurant[] Returns an array of Restaurant objects
     //  */
