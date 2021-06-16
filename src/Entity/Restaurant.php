@@ -49,10 +49,16 @@ class Restaurant
      */
     private $Gerichte;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Kategorie::class, mappedBy="Restaurant")
+     */
+    private $kategories;
+
 
     public function __construct()
     {
         $this->Gerichte = new ArrayCollection();
+        $this->kategories = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -144,6 +150,36 @@ class Restaurant
             // set the owning side to null (unless already changed)
             if ($gerichte->getRestaurant() === $this) {
                 $gerichte->setRestaurant(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Kategorie[]
+     */
+    public function getKategories(): Collection
+    {
+        return $this->kategories;
+    }
+
+    public function addKategory(Kategorie $kategory): self
+    {
+        if (!$this->kategories->contains($kategory)) {
+            $this->kategories[] = $kategory;
+            $kategory->setRestaurant($this);
+        }
+
+        return $this;
+    }
+
+    public function removeKategory(Kategorie $kategory): self
+    {
+        if ($this->kategories->removeElement($kategory)) {
+            // set the owning side to null (unless already changed)
+            if ($kategory->getRestaurant() === $this) {
+                $kategory->setRestaurant(null);
             }
         }
 
