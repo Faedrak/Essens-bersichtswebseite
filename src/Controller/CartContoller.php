@@ -11,8 +11,11 @@ class CartContoller extends AbstractController
     #[Route('/cart', name: 'cart')]
     public function index(): Response
     {
+        
+
         return $this->render('cart/cart.html.twig', [
-            'aktuelleZeiteinfach' => date("Y"),
+            //'aktuelleZeiteinfach' => date("Y"),
+
         ]);
     }
 
