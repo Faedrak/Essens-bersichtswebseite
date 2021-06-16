@@ -29,6 +29,11 @@ class Bestellung
      */
     private $Gerichte;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=SammelBestellung::class, inversedBy="bestellungs")
+     */
+    private $SammelBestellung;
+
     public function __construct()
     {
         $this->Gerichte = new ArrayCollection();
@@ -71,6 +76,18 @@ class Bestellung
     public function removeGerichte(GerichtVariation $gerichte): self
     {
         $this->Gerichte->removeElement($gerichte);
+
+        return $this;
+    }
+
+    public function getSammelBestellung(): ?SammelBestellung
+    {
+        return $this->SammelBestellung;
+    }
+
+    public function setSammelBestellung(?SammelBestellung $SammelBestellung): self
+    {
+        $this->SammelBestellung = $SammelBestellung;
 
         return $this;
     }
