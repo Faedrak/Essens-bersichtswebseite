@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Gericht;
 use App\Entity\Restaurant;
+use Doctrine\ORM\PersistentCollection;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -25,15 +26,10 @@ class HomeController extends AbstractController
     #[Route('/gerichte/{id}', name: 'gerichte')]
     public function gerichte(int $id) : Response
     {
-        $restaurant = $this->getDoctrine()->getRepository(Restaurant::class)->find($id);
+        $restaurant = $this->getDoctrine()->getRepository(Restaurant::class)->findOneBy(['id' => $id]);
+        
+        $gericht = $restaurant->getGerichte();
 
-        $gericht = null;
-
-
-
-        if($restaurant instanceof Restaurant){
-            $gericht = $restaurant->getGerichte();
-        }
 
         dump($gericht);
         return $this->render('home/gerichte.html.twig', [
