@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\BestellungRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -17,8 +19,59 @@ class Bestellung
      */
     private $id;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $GastName;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=GerichtVariation::class, inversedBy="bestellungen")
+     */
+    private $Gerichte;
+
+    public function __construct()
+    {
+        $this->Gerichte = new ArrayCollection();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getGastName(): ?string
+    {
+        return $this->GastName;
+    }
+
+    public function setGastName(?string $GastName): self
+    {
+        $this->GastName = $GastName;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|GerichtVariation[]
+     */
+    public function getGerichte(): Collection
+    {
+        return $this->Gerichte;
+    }
+
+    public function addGerichte(GerichtVariation $gerichte): self
+    {
+        if (!$this->Gerichte->contains($gerichte)) {
+            $this->Gerichte[] = $gerichte;
+        }
+
+        return $this;
+    }
+
+    public function removeGerichte(GerichtVariation $gerichte): self
+    {
+        $this->Gerichte->removeElement($gerichte);
+
+        return $this;
     }
 }

@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\GerichtVariationRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -36,6 +38,16 @@ class GerichtVariation
      * @ORM\ManyToOne(targetEntity=Gericht::class, inversedBy="gerichtVariations")
      */
     private $Gericht;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Bestellung::class, mappedBy="Gerichte")
+     */
+    private $bestellungen;
+
+    public function __construct()
+    {
+        $this->bestellungen = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -86,6 +98,33 @@ class GerichtVariation
     public function setGericht(?Gericht $Gericht): self
     {
         $this->Gericht = $Gericht;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Bestellung[]
+     */
+    public function getBestellungen(): Collection
+    {
+        return $this->bestellungen;
+    }
+
+    public function addBestellungen(Bestellung $bestellungen): self
+    {
+        if (!$this->bestellungen->contains($bestellungen)) {
+            $this->bestellungen[] = $bestellungen;
+            $bestellungen->addGerichte($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBestellungen(Bestellung $bestellungen): self
+    {
+        if ($this->bestellungen->removeElement($bestellungen)) {
+            $bestellungen->removeGerichte($this);
+        }
 
         return $this;
     }
