@@ -4,11 +4,13 @@ namespace App\Controller;
 
 
 use App\Entity\Restaurant;
+use App\Entity\SammelBestellung;
 use Doctrine\ORM\PersistentCollection;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use function Symfony\Component\Translation\t;
 
 class HomeController extends AbstractController
 {
@@ -23,33 +25,24 @@ class HomeController extends AbstractController
         $restaurants = $this->getDoctrine()
         ->getRepository(Restaurant::class)->findAll();
 
-
-
-
         $session->set('foo', 'bar');
 
         return $this->render('home/index.html.twig', [
             'controller_name' => 'HomeController',
             'restaurants' => $restaurants
         ]);
-
-
-
     }
 
     #[Route('/gerichte/{id}', name: 'gerichte')]
     public function gerichte(int $id, SessionInterface $session) : Response
     {
-//        $restaurant = $this->getDoctrine()->getRepository(Restaurant::class)->findOneBy(['id' => $id]);
-        
-        $gericht = null;
+        $restaurant = $this->getDoctrine()->getRepository(Restaurant::class)->findOneBy(['id' => $id]);
+
+        $gericht = $restaurant->getGerichte();
 
 
-        dump($gericht);
         return $this->render('home/gerichte.html.twig', [
             'gerichte' => $gericht
         ]);
     }
-
-
 }

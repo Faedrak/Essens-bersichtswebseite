@@ -8,12 +8,15 @@
     <div class="row">
     {% for restaurant in restaurants %}
         <div class="col-sm-6">
-            <div class="card">
-                <div class="card-body" style="margin-top: 1em;">
+            <div class="card mt-3">
+                <div class="card-body">
                     <h5 class="card-title">{{ restaurant.name }}</h5>
                     <p class="card-text">Telefon Nummer: {{ restaurant.TelefonNr }}</p>
-                    <p class="card-text">Mobil: {{ restaurant.Mobil }}</p>
+                    {% if restaurant.Mobil is null %}
+                        <p class="card-text">Mobil: {{ restaurant.Mobil }}</p>
+                    {% endif %}
                     <p class="card-text">Straße: {{ restaurant.Straße }} {{ restaurant.HausNr }}</p>
+                    <p class="card-text">PLZ-Ort: {{ restaurant.ort.plz }} {{ restaurant.ort.ort }}</p>
                     <a href="{{ path('gerichte', {id: restaurant.id})}}" class="btn btn-primary">Zeige Gerichte</a>
                 </div>
             </div>
