@@ -3,17 +3,126 @@
 {% block title %}Hello HomeController!{% endblock %}
 
 {% block body %}
+
+
+
 <style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+.stick:hover{
+    margin-top: 0px;
+}
+.stick{
+    float: right;
+    min-width: 20px;
+    min-height: 200px;
+    margin-top: 50px;
+    margin-left: 2px;
+    margin-right: 2px;
+    /*z-index: 20;*/
+    position: relative;
+    
+}
+.stopstick{
+    float: right;
+    min-width: 20px;
+    min-height: 200px;
+    margin-top: 50px;
+    margin-left: 2px;
+    margin-right: 2px;
+    position: relative;
+
+}
+
+.center-screen {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  min-height: 100vh;
+}
+
+.centerobj{
+    float: right;
+}
+
+.blindfold{
+    position:relative;
+    top: -100px;
+    background-color: white;
+    min-width: 100%;
+    min-height:100px;
+}
+.endscreen{
+    position: absolute;
+    top: 40%;
+    background-color: #808080de;
+    min-width: 50%;
+    height: 100px;
+    border-radius: 15px;
+    z-index: 20;
+}
+
+.endscreentext{
+    position: relative;
+    margin: 40px;
+}
 </style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha512-z4OUqw38qNLpn1libAN9BsoDx6nbNFio5lA6CuTp9NlK83b89hgyCVq+N5FdBJptINztxn1Z3SaKSKUS5UP60Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-<div class="example-wrapper">
-    <img style="max-width: 100%" src="{{asset('img/head.jpg')}}">
-    <h1 style="margin-top: 10px;margin-bottom: 0px;">Ihre Bestellung bei </h1>
-    <hr style="height:5px;margin-top: 0px;margin-bottom: 10px;">
+<body>
+    <div class="center-screen">
+        <div class="centerobj"></div>
+        <div class="blindfold"></div>
+    </div>
+    <script>
+        number=10
+        losenumber=Math.floor(Math.random() * (number -1 + 1)+1)
+        centerobj=document.getElementsByClassName("centerobj")
+        centerobj=centerobj[0]
+        for(i=0;i<losenumber-1;i++){
+            centerobj.innerHTML+='<div class="stick" ><img src="Y:\\Eigene Dateien\\Downloads\\match.svg" ></div>'
+        }
+        centerobj.innerHTML+=src='<div class="stick" id="lose"><img src="Y:\\Eigene Dateien\\Downloads\\match2.svg" ></div>'
+        for(i=0;i<number-losenumber;i++){
+            centerobj.innerHTML+='<div class="stick" ><img src="Y:\\Eigene Dateien\\Downloads\\match.svg" ></div>'
+        }
+        
+        function clicki(e){
+            tar=e.target.parentElement
+            if (tar.className === "stick"){
+                anime({
+                targets: tar,
+                translateY: -150,
+                zIndex: 2,
+                })
+            
+                document.removeEventListener('click', clicki)
+                sticks=document.getElementsByClassName("stick")
+                Array.from(sticks).forEach(function(a){
+                    console.log(a)
+                    a.className="stopstick"
+                })
+                setTimeout(function(){
+                    centerobj.style["opacity"]=0.5
+                    if(tar.id==="lose"){
+                        centerobj.parentElement.innerHTML+='<div class="endscreen"><p class="endscreentext">leider Pech gehabt :(</p></div>'
+                    }
+                    else{
+                        centerobj.parentElement.innerHTML+='<div class="endscreen"><p class="endscreentext">Glück gehabt!</p></div>'
+                    }
+                    
+                },2000)
+            }
 
-    <div class="card">hi</div>
+        }
 
-</div>
+        document.addEventListener('click', clicki)
+
+    
+    </script>
+</body>
+
+
+
+
 {% endblock %}
