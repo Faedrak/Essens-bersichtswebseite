@@ -44,6 +44,11 @@ class GerichtVariation
      */
     private $Bestellungen;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $geloescht;
+
     public function __construct()
     {
         $this->Bestellungen = new ArrayCollection();
@@ -125,6 +130,18 @@ class GerichtVariation
         if ($this->Bestellungen->removeElement($bestellungen)) {
             $bestellungen->removeGerichtVariation($this);
         }
+
+        return $this;
+    }
+
+    public function getGeloescht(): ?bool
+    {
+        return $this->geloescht;
+    }
+
+    public function setGeloescht(bool $geloescht): self
+    {
+        $this->geloescht = $geloescht;
 
         return $this;
     }
