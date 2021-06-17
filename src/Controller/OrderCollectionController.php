@@ -17,7 +17,7 @@ class OrderCollectionController extends AbstractController
      * @param SessionInterface $session Eine Service Injektion für das Management von den PHP Session
      * @return Response
      */
-    #[Route('/ordercollection', name: 'ordercollection')]
+    #[Route('/ordercollection/', name: 'ordercollection')]
     public function index(SessionInterface $session): Response
     {
         $restaurants = $this->getDoctrine()

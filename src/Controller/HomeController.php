@@ -38,11 +38,10 @@ class HomeController extends AbstractController
     {
         $restaurant = $this->getDoctrine()->getRepository(Restaurant::class)->findOneBy(['id' => $id]);
 
-        $gericht = $restaurant->getGerichte();
-
+        $gerichte = $restaurant->getGerichte();
 
         return $this->render('home/gerichte.html.twig', [
-            'gerichte' => $gericht
+            'gerichte' => $gerichte
         ]);
     }
 }
