@@ -32,13 +32,18 @@
         <table class="table table-striped">
         <thead><tr><th scope="col">{{bestellung.GastName}}</th><th scope="col"></th></tr></thead>
         <tbody>
-        {%if bestellung.GerichtVariation == null %}
+        {%if bestellung.GerichtVariation.count() > 0 %}
         {% for gerichtvari in bestellung.GerichtVariation %}
         <tr>
                 <td>{{gerichtvari.gericht.Kategorie.Bezeichner}}: {{gerichtvari.gericht.Name}}: {{gerichtvari.Name}}</td>
                 <td>{{gerichtvari.preis}}€</td>
         </tr>
         {% endfor %}
+        {% else %}
+        <tr>
+            <td>Keine Gerichte gewählt!</td>
+            <td></td>
+        </tr>
         {% endif %}
 
         </tbody>
