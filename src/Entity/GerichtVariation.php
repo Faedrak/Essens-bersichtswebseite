@@ -36,6 +36,7 @@ class GerichtVariation
 
     /**
      * @ORM\ManyToOne(targetEntity=Gericht::class, inversedBy="GerichtVariationen")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $gericht;
 

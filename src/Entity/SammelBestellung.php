@@ -31,6 +31,7 @@ class SammelBestellung
 
     /**
      * @ORM\ManyToOne(targetEntity=Restaurant::class, inversedBy="SammelBestellungen")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $Restaurant;
 
