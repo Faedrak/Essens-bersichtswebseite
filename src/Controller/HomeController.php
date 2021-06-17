@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 
+use App\Entity\Restaurant;
 use Doctrine\ORM\PersistentCollection;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,10 +20,10 @@ class HomeController extends AbstractController
     #[Route('/', name: 'home')]
     public function index(SessionInterface $session): Response
     {
-//        $restaurants = $this->getDoctrine()
-//        ->getRepository(Restaurant::class)->findAll();
+        $restaurants = $this->getDoctrine()
+        ->getRepository(Restaurant::class)->findAll();
 
-        $restaurants = null;
+
 
 
         $session->set('foo', 'bar');

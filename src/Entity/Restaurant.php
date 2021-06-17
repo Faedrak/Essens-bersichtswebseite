@@ -45,11 +45,6 @@ class Restaurant
     private $HausNr;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Ort::class, inversedBy="restaurants")
-     */
-    private $Ort;
-
-    /**
      * @ORM\Column(type="json", nullable=true)
      */
     private $Oeffnungszeit = [];
@@ -63,6 +58,12 @@ class Restaurant
      * @ORM\OneToMany(targetEntity=SammelBestellung::class, mappedBy="Restaurant")
      */
     private $SammelBestellungen;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Ort::class, inversedBy="restaurants")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $Ort;
 
     public function __construct()
     {
@@ -135,18 +136,6 @@ class Restaurant
         return $this;
     }
 
-    public function getOrt(): ?Ort
-    {
-        return $this->Ort;
-    }
-
-    public function setOrt(?Ort $Ort): self
-    {
-        $this->Ort = $Ort;
-
-        return $this;
-    }
-
     public function getOeffnungszeit(): ?array
     {
         return $this->Oeffnungszeit;
@@ -215,6 +204,18 @@ class Restaurant
                 $sammelBestellungen->setRestaurant(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getOrt(): ?Ort
+    {
+        return $this->Ort;
+    }
+
+    public function setOrt(?Ort $Ort): self
+    {
+        $this->Ort = $Ort;
 
         return $this;
     }
