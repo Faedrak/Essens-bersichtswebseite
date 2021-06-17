@@ -2,8 +2,7 @@
 
 namespace App\Controller;
 
-use App\Entity\Gericht;
-use App\Entity\Restaurant;
+
 use Doctrine\ORM\PersistentCollection;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,8 +19,11 @@ class HomeController extends AbstractController
     #[Route('/', name: 'home')]
     public function index(SessionInterface $session): Response
     {
-        $restaurants = $this->getDoctrine()
-        ->getRepository(Restaurant::class)->findAll();
+//        $restaurants = $this->getDoctrine()
+//        ->getRepository(Restaurant::class)->findAll();
+
+        $restaurants = null;
+
 
         $session->set('foo', 'bar');
 
@@ -37,13 +39,9 @@ class HomeController extends AbstractController
     #[Route('/gerichte/{id}', name: 'gerichte')]
     public function gerichte(int $id, SessionInterface $session) : Response
     {
-        $restaurant = $this->getDoctrine()->getRepository(Restaurant::class)->findOneBy(['id' => $id]);
+//        $restaurant = $this->getDoctrine()->getRepository(Restaurant::class)->findOneBy(['id' => $id]);
         
-        $gericht = $restaurant->getGerichte();
-
-        $test = $session->get('foo');
-
-        return new Response($test);
+        $gericht = null;
 
 
         dump($gericht);
