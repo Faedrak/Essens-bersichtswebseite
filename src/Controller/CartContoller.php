@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Bestellung;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\SammelBestellung;
@@ -15,8 +16,8 @@ class CartContoller extends AbstractController
     #[Route('/cart', name: 'cart')]
     public function index(): Response
     {
-        $restaurant_id=1;
-        $sammel_bestellung=$this->getDoctrine()->getRepository(SammelBestellung::class)->find($restaurant_id);
+        $sammelBestellungID=1;
+        $sammel_bestellung=$this->getDoctrine()->getRepository(SammelBestellung::class)->find($sammelBestellungID);
         $restaurant_name=$sammel_bestellung->getRestaurant()->getName();
         $bestellungen=$sammel_bestellung->getBestellung();
         
@@ -29,6 +30,15 @@ class CartContoller extends AbstractController
 
         ]);
     }
+
+    #[Route('/card/add', name: 'addItemToCart')]
+    public function addItem(Request $request){
+        $publicURL = $request->get('cardItem');
+
+        return new Response($publicURL);
+
+    }
+
 }
 
 /*
