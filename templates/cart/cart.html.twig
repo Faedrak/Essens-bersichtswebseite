@@ -6,14 +6,50 @@
 <style>
     .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
     .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+    .button{
+        text-decoration: none;
+        color: #212529;        
+    }
+    .button:hover{
+        color: #585f65;  
+    }
+    .rname{
+        display: inline;
+        color: #212529;
+        text-decoration-line: underline;
+        font-size: smaller;
+    }
 </style>
 
 <div class="example-wrapper">
     <img style="max-width: 100%" src="{{asset('img/head.jpg')}}">
-    <h1 style="margin-top: 10px;margin-bottom: 0px;">Ihre Bestellung bei </h1>
+    <h1 style="margin-top: 10px;margin-bottom: 0px;">Ihre Bestellung bei: <p class="rname">{{restaurant_name}}</p></h1>
     <hr style="height:5px;margin-top: 0px;margin-bottom: 10px;">
+    <a href="javascript:location.reload(true)" class="button"><i class="fas fa-sync-alt"></i></a>
+    <p></p>
 
-    <div class="card">hi</div>
+    {% for bestellung in bestellungen %}
+        <table class="table table-striped">
+        <thead><tr><th scope="col">{{bestellung.GastName}}</th><th scope="col"></th></tr></thead>
+        <tbody>
+        {%if bestellung.GerichtVariation.count() > 0 %}
+        {% for gerichtvari in bestellung.GerichtVariation %}
+        <tr>
+                <td>{{gerichtvari.gericht.Kategorie.Bezeichner}}: {{gerichtvari.gericht.Name}}: {{gerichtvari.Name}}</td>
+                <td>{{gerichtvari.preis}}€</td>
+        </tr>
+        {% endfor %}
+        {% else %}
+        <tr>
+            <td>Keine Gerichte gewählt!</td>
+            <td></td>
+        </tr>
+        {% endif %}
+
+        </tbody>
+        </table>
+
+    {% endfor %}
 
 </div>
 {% endblock %}
