@@ -36,37 +36,66 @@
 
 
 <div class="container">
-    <div class="row" id="block">
+    <div class="row">
         <div class="col smulview">
         <img style="max-width: 100%" src="{{asset('img/head.jpg')}}">
-        <h1 style="margin-top: 10px;margin-bottom: 0px;">Ihre Bestellung bei: <p class="rname">{{restaurant_name}}</p></h1>
+        <h1 style="margin-top: 10px;margin-bottom: 0px;">Ihre Bestellung bei: <p class="rname">{{restaurant.name}}</p></h1>
         <hr style="height:5px;margin-top: 0px;margin-bottom: 10px;">
         <a href="javascript:location.reload(true)" class="button"><i class="fas fa-sync-alt fa-2x"></i></a>
         <div class="bu2"><a onclick="toggleit()" class="button">Restaurant Info</a></div>
         <p></p>
-
-    {% for bestellung in bestellungen %}
-        <table class="table table-striped">
-        <thead><tr><th scope="col">{{bestellung.GastName}}</th><th scope="col"></th></tr></thead>
-        <tbody>
-        {%if bestellung.GerichtVariation.count() > 0 %}
-        {% for gerichtvari in bestellung.GerichtVariation %}
-        <tr>
-                <td><a class="link-dark" href="/gerichte/{{gerichtvari.gericht.restaurant.id}}?id=heading{{gerichtvari.gericht.Nummer}}">{{gerichtvari.gericht.Kategorie.Bezeichner}}: {{gerichtvari.gericht.Name}}: {{gerichtvari.Name}}</a></td>
+        {% set gesamtpreis = 0 %}
+        {% for bestellung in bestellungen %}
+            {% set preis = 0 %}
+            <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">{{bestellung.GastName}}</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+            {%if bestellung.GerichtVariation.count() > 0 %}
+            {% for gerichtvari in bestellung.GerichtVariation %}
+            <tr>
+                <td>
+                    <a class="link-dark" href="/gerichte/{{gerichtvari.gericht.restaurant.id}}?id=heading{{gerichtvari.gericht.Nummer}}">{{gerichtvari.gericht.Kategorie.Bezeichner}}: {{gerichtvari.gericht.Name}}: {{gerichtvari.Name}}</a>
+                </td>
                 <td class="text-end">{{gerichtvari.preis}}€</td>
-        </tr>
+                {% set preis = preis + gerichtvari.preis %}
+            </tr>
+            {% endfor %}
+            <tr>
+                <td style="font-weight:bold;">Zwischensumme</td>
+                <td class="text-end">{{preis}}€</td>
+            </tr>
+            {% set gesamtpreis = gesamtpreis + preis %}
+            {% else %}
+            <tr>
+                <td>Keine Gerichte gewählt!</td>
+                <td></td>
+            </tr>
+            {% endif %}
+            </tbody>
+            </table>
         {% endfor %}
-        {% else %}
-        <tr>
-            <td>Keine Gerichte gewählt!</td>
-            <td></td>
-        </tr>
-        {% endif %}
-
-        </tbody>
+        <!--
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col" style="font-size: large;">Gesamtpreis</th>
+                    <th scope="col" class="text-end" style="font-size: large;">{{gesamtpreis}}€</th>
+                </tr>
+            </thead>
         </table>
-
-    {% endfor %}
+        -->
+        <div class="col-sm-3" id="sidebar" style="display:none;">
+            <p style="font-weight:bold;">Restaurant</p>
+            <p>{{restaurant.name}}</p>
+            <p>{{restaurant.TelefonNr}}</p>
+            <p>{{restaurant.Mobil}}</p>
+            <p>{{restaurant.Straße}} {{restaurant.HausNr}}</p>
+            <p>{{restaurant.Ort.plz}} {{restaurant.Ort.ort}}</p>
         </div>
     </div>
 </div>
@@ -76,12 +105,12 @@
 <script>
     function toggleit(){
         sidebar=document.getElementById("sidebar")
-        if( sidebar != null){
-            sidebar.remove()
+        if( sidebar.style["display"]==="block"){
+            sidebar.style["display"]="none"
         }else{
-            document.getElementById("block").innerHTML+='<div class="col-sm-3" id="sidebar"><p>danebedfdfdfdfdfdfmn</p></div>'
-        }
+            sidebar.style["display"]="block"
 
+        }
     }
     
 

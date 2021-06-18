@@ -15,16 +15,16 @@ class CartContoller extends AbstractController
     #[Route('/cart', name: 'cart')]
     public function index(): Response
     {
-        $restaurant_id=1;
-        $sammel_bestellung=$this->getDoctrine()->getRepository(SammelBestellung::class)->find($restaurant_id);
-        $restaurant_name=$sammel_bestellung->getRestaurant()->getName();
+        $sbst_id=1;
+        $sammel_bestellung=$this->getDoctrine()->getRepository(SammelBestellung::class)->find($sbst_id);
+        $restaurant=$sammel_bestellung->getRestaurant();
         $bestellungen=$sammel_bestellung->getBestellung();
         
        
 
 
         return $this->render('cart/cart.html.twig', [
-            'restaurant_name' => $restaurant_name,
+            'restaurant' => $restaurant,
             'bestellungen'=> $bestellungen
 
         ]);

@@ -8,9 +8,9 @@
 <div class="container" style="margin-top: 1em;">
     <label>Öffentliche Url</label> 
     <div class="input-group mb-3">
-        <text id="publicUrl" class="form-control" type="text" readonly>{{ sammelbestellung.PublicURL}}</text>
+        <input type="text" class="form-control publicurltext" value={{ url('setParam', {link: sammelbestellung.PublicURL}) }} readonly></input>
         <div class="input-group-append">
-            <button class="input-group-text" id="basic-addon2">Copy URL</button>
+            <button class="input-group-text publicurlbtn" id="basic-addon2">Copy URL</button>
         </div>
         <a class="btn btn-success" href="whatsapp://send?text={{ url('setParam', {link: sammelbestellung.PublicURL}, true) }}" data-action="share/whatsapp/share">
             <i class="fab fa-whatsapp fa-lg">
@@ -22,7 +22,7 @@
     <div class="input-group mb-3">
         <text id="adminUrl" class="form-control" type="text" readonly>{{ sammelbestellung.AdminURL }}</text>
         <div class="input-group-append">
-            <button class="input-group-text" id="basic-addon2" onclick="copyText(document.querySelector('adminUrl'))">Copy URL</button>
+            <button class="input-group-text" id="basic-addon2">Copy URL</button>
         </div>
     </div>
 </div>
