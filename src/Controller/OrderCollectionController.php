@@ -26,10 +26,9 @@ class OrderCollectionController extends AbstractController
         $session->set('foo', 'bar');
 
         return $this->render('ordercollection/ordercollection.html.twig', [
-            'controller_name' => 'OrderCollectionController'
+            'controller_name' => 'OrderCollectionController',
+            'restaurants' => null
         ]);
-
-
 
     }
 }

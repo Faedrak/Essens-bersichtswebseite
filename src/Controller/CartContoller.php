@@ -29,20 +29,7 @@ class CartContoller extends AbstractController
 
         ]);
     }
-
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
 
