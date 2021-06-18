@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Sammelbestellung erstellen{% endblock %}
+
+
+{% block body %}
+
+<div class="container" style="margin-top: 1em;">
+    <h3>Keine aktuelle Sammelbestlung vorhanden 😢</h3>
+    <p>Lass dir einen Link von deinen Freunden zuschicken, oder erstelle selbst eine Sammelbestellung und Teile den Link mit deinen Freunden. </p>
+    <a class="btn btn-primary" href="{{ path('ordercollection') }}"><i class="fas fa-plus"></i> Sammelbestellung erstellen</a>
+</div>
+
+
+{% endblock %}

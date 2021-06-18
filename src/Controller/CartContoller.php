@@ -19,7 +19,7 @@ class CartContoller extends AbstractController
     #[Route('/cart', name: 'cart')]
     public function index(SessionInterface $session): Response
     {
-        $bestllungID =  $session->get('bestellID');
+/*        $bestllungID =  $session->get('bestellID');
     
         
         $bestellungen = $this->getDoctrine()->getRepository(Bestellung::class)->find($bestllungID);
@@ -30,9 +30,22 @@ class CartContoller extends AbstractController
         if(is_int($sammelBestellungID) != true){
             return $this->redirect('/');
         }
-        $sammel_bestellung=$this->getDoctrine()->getRepository(SammelBestellung::class)->find($sammelBestellungID);
-        $restaurant=$sammel_bestellung->getRestaurant();
-        $bestellungen=$sammel_bestellung->getBestellung();
+
+        $sammel_bestellung=$this->getDoctrine()->getRepository(SammelBestellung::class)->find($sammelBestellungID);*/
+
+
+        $restaurant = null;
+        $bestellungen = null;
+
+        if($session->get('bestellID') != null){
+            $sammel_bestellung = $this->getDoctrine()->getRepository(Bestellung::class)->find($session->get('bestellID'))->getSammelBestellung();
+
+            $restaurant=$sammel_bestellung->getRestaurant();
+            $bestellungen=$sammel_bestellung->getBestellung();
+        }
+
+
+
 
 
 
@@ -47,9 +60,8 @@ class CartContoller extends AbstractController
     #[Route('/card/add', name: 'addItemToCart')]
     public function addItem(Request $request, SessionInterface $session){
         $gvID = $request->get('cardItem');
-        $publicURL = $request->get('publicId');
 
-        $restaurant = $this->getDoctrine()->getRepository(SammelBestellung::class)->findOneBy(['PublicURL' => $publicURL])->getRestaurant();
+
 
         $gerichtVari = $this->getDoctrine()->getRepository(GerichtVariation::class)->find($gvID);
 
@@ -65,7 +77,8 @@ class CartContoller extends AbstractController
 
 
 
-        return $this->forward('App\Controller\HomeController::gerichte', array('id' => $restaurant->getID(), 'publicId' => $publicURL));
+        /*return $this->forward('App\Controller\HomeController::gerichte', array('id' => $restaurant->getID(), 'publicId' => $publicURL));*/
+        return $this->redirectToRoute('order', array('restaurantID' => $bestellung->getSammelBestellung()->getRestaurant()->getId()));
 
     }
 

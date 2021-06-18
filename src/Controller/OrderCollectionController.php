@@ -8,6 +8,8 @@ use App\Entity\Restaurant;
 use App\Entity\SammelBestellung;
 use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\PersistentCollection;
+use phpDocumentor\Reflection\Types\This;
+use phpDocumentor\Reflection\Utils;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Request as HttpFoundationRequest;
@@ -73,8 +75,8 @@ class OrderCollectionController extends AbstractController
     public function setSessionParam(SessionInterface $session, string $link, Request $request)
     {
         if($request->get('Gast_Name') != null){
-            $sammelbestellung = $this->getDoctrine()->getRepository(SammelBestellung::class)->findOneBy(['PublicURL' => $link]);
 
+            $sammelbestellung = $this->getDoctrine()->getRepository(SammelBestellung::class)->findOneBy(['PublicURL' => $link]);
             $bestellung = new Bestellung();
 
             $bestellung->setGastName($request->get('Gast_Name'));
@@ -89,7 +91,8 @@ class OrderCollectionController extends AbstractController
             if($sammelbestellung instanceof SammelBestellung){
                 $id = $sammelbestellung->getRestaurant()->getId();
                 $session->set('pubLink', $link);
-                return $this->forward('App\Controller\HomeController::gerichte', array('id' => $id, 'publicId' => $link));
+                /*return $this->forward('App\Controller\HomeController::gerichte', array('id' => $id, 'publicId' => $link));*/
+                return $this->redirectToRoute('order', array('restaurantID' => $id));
             }
 
         }
@@ -98,7 +101,20 @@ class OrderCollectionController extends AbstractController
             'link' => $link
         ]);
 
+    }
+    #[Route('/ordercollection/current', name: 'currentOrderCollection')]
+    public function currentOrderCollection(SessionInterface $session) : Response
+    {
+        if($session->get('bestellID') != null){
+            $bestellung = $this->getDoctrine()->getRepository(Bestellung::class)->find($session->get('bestellID'));
+            if($bestellung instanceof Bestellung){
+                return $this->redirectToRoute('order', array('restaurantID' => $bestellung->getSammelBestellung()->getRestaurant()->getId()));
+
+            }
+        }
+        return $this->render('ordercollection/nocurrentordercollection.html.twig');
 
     }
+
 
 }

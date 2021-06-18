@@ -6,6 +6,7 @@ namespace App\Controller;
 use App\Entity\Restaurant;
 use App\Entity\SammelBestellung;
 use Doctrine\ORM\PersistentCollection;
+use phpDocumentor\Reflection\Types\Boolean;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
@@ -32,14 +33,30 @@ class HomeController extends AbstractController
     }
 
     #[Route('/gerichte/{id}', name: 'gerichte')]
-    public function gerichte(int $id, SessionInterface $session, string $publicId = null) : Response
+    public function gerichte(int $id, SessionInterface $session, bool $inOrderMode = false) : Response
     {
         $restaurant = $this->getDoctrine()->getRepository(Restaurant::class)->findOneBy(['id' => $id]);
         $gerichte = $restaurant->getGerichte();
 
         return $this->render('home/gerichte.html.twig', [
             'gerichte' => $gerichte,
-            'publicId' => $publicId
+            'inOrderMode' => $inOrderMode
         ]);
     }
+
+    #[Route('/order/{restaurantID}', name: "order")]
+    public function Order(int $restaurantID): Response
+    {
+        $restaurant = $this->getDoctrine()->getRepository(Restaurant::class)->findOneBy(['id' => $restaurantID]);
+        $gerichte = $restaurant->getGerichte();
+
+
+        return $this->render('home/gerichte.html.twig', [
+            'gerichte' => $gerichte,
+            'inOrderMode' => true
+        ]);
+    }
+
+
+
 }

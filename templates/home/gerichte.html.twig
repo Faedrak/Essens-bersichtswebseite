@@ -34,11 +34,10 @@
                                 {% for gv in gericht.GerichtVariationen %}
 
 
-                                    {% if publicId != null %}
+                                    {% if inOrderMode %}
                                         <form class="pt-2" method="post" action="{{ path('addItemToCart') }}">
                                             <div class="row">
                                                 <input type="hidden" name="cardItem" value="{{ gv.id }}">
-                                                <input type="hidden" name="publicId" value="{{ publicId }}">
                                                 <button type="submit" class="btn btn-primary col" style="max-width: 5em"><i class="fas fa-cart-plus"></i></button>
                                                 <label class="col">{{ gv.Name }} {{ gv.Preis }}€</label>
                                             </div>
