@@ -20,7 +20,7 @@ class CartContoller extends AbstractController
     public function index(SessionInterface $session): Response
     {
         $bestllungID =  $session->get('bestellID');
-        dump($session);
+    
         
         $bestellungen = $this->getDoctrine()->getRepository(Bestellung::class)->find($bestllungID);
 
