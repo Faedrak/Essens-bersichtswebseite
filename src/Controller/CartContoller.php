@@ -20,14 +20,15 @@ class CartContoller extends AbstractController
     public function index(SessionInterface $session): Response
     {
         $bestllungID =  $session->get('bestellID');
-
+        dump($session);
+        
         $bestellungen = $this->getDoctrine()->getRepository(Bestellung::class)->find($bestllungID);
 
 
         $sammelBestellungID=$bestellungen->getSammelBestellung()->getId();
         $restaurants = $this->getDoctrine()->getRepository(Restaurant::class)->findAll();
-        if($sammelBestellungID == null){
-            return $this->render('home/index.html.twig',['restaurants' => $restaurants]);
+        if(is_int($sammelBestellungID) != true){
+            return $this->redirect('/');
         }
         $sammel_bestellung=$this->getDoctrine()->getRepository(SammelBestellung::class)->find($sammelBestellungID);
         $restaurant=$sammel_bestellung->getRestaurant();
