@@ -4,21 +4,6 @@
 
 {% block body %}
 <style>
-    .button{
-        text-decoration: none;
-        color: #212529;      
-    }
-    .button:hover{
-        color: #585f65;  
-    }
-    .bu2{
-        float:right;
-        background-color: #8ec6ff;
-        border-radius:5px;
-        padding:5px;
-        font-weight:bold;       
-        
-    }
     .rname{
         display: inline;
         color: #212529;
@@ -41,8 +26,9 @@
         <img style="max-width: 100%" src="{{asset('img/head.jpg')}}">
         <h1 style="margin-top: 10px;margin-bottom: 0px;">Ihre Bestellung bei: <p class="rname">{{restaurant.name}}</p></h1>
         <hr style="height:5px;margin-top: 0px;margin-bottom: 10px;">
-        <a href="javascript:location.reload(true)" class="button"><i class="fas fa-sync-alt fa-2x"></i></a>
-        <div class="bu2"><a onclick="toggleit()" class="button">Restaurant Info</a></div>
+        <a href="javascript:history.back()" class="btn btn-success">Weiter Einkaufen</a>
+        <a href="javascript:location.reload(true)" class="btn btn-dark"><i class="fas fa-sync-alt fa-1x"></i></a>
+        <div style="float:right"><a onclick="toggleit()" class="btn btn-dark">Restaurant Info</a></div>
         <p></p>
         {% set gesamtpreis = 0 %}
         {% for bestellung in bestellungen %}
