@@ -35,7 +35,7 @@
         {%if bestellung.GerichtVariation.count() > 0 %}
         {% for gerichtvari in bestellung.GerichtVariation %}
         <tr>
-                <td><a class="link-dark" href="/gerichte/{{gerichtvari.gericht.restaurant.id}}#heading{{gerichtvari.gericht.Nummer}}?open=1">{{gerichtvari.gericht.Kategorie.Bezeichner}}: {{gerichtvari.gericht.Name}}: {{gerichtvari.Name}}</a></td>
+                <td><a class="link-dark" href="/gerichte/{{gerichtvari.gericht.restaurant.id}}?id=heading{{gerichtvari.gericht.Nummer}}">{{gerichtvari.gericht.Kategorie.Bezeichner}}: {{gerichtvari.gericht.Name}}: {{gerichtvari.Name}}</a></td>
                 <td>{{gerichtvari.preis}}€</td>
         </tr>
         {% endfor %}

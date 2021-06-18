@@ -50,16 +50,14 @@
     <script>
         url_string=window.location.href
         url = new URL(url_string)
-        open=url.searchParams.get("open")
         id=url.searchParams.get("id")
-        console.log(open)
-        console.log(id)
 
         if (id!=null){
-
-            document.getElementById('id').scrollIntoView();
-
+            row=document.getElementById(id)
+            row.scrollIntoView()
+            console.log(row.children[0].click())
         }
+
 
     </script>
 
