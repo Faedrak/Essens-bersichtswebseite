@@ -3,12 +3,13 @@
 namespace App\Controller;
 
 
+use App\Entity\Bestellung;
 use App\Entity\Restaurant;
 use App\Entity\SammelBestellung;
 use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\PersistentCollection;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\BrowserKit\Request;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Request as HttpFoundationRequest;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
@@ -69,15 +70,35 @@ class OrderCollectionController extends AbstractController
     }
 
     #[Route('/ordercollection/pub/{link}', name: 'setParam')]
-    public function setSessionParam(SessionInterface $session, string $link)
+    public function setSessionParam(SessionInterface $session, string $link, Request $request)
     {
-        $sammelbestellung = $this->getDoctrine()->getRepository(SammelBestellung::class)->findOneBy(['PublicURL' => $link]);
+        if($request->get('Gast_Name') != null){
+            $sammelbestellung = $this->getDoctrine()->getRepository(SammelBestellung::class)->findOneBy(['PublicURL' => $link]);
 
-        if($sammelbestellung instanceof SammelBestellung){
-             $id = $sammelbestellung->getRestaurant()->getId();
-            $session->set('pubLink', $link);
-            return $this->forward('App\Controller\HomeController::gerichte', array('id' => $id, 'orderEnabled' => true));
+            $bestellung = new Bestellung();
+
+            $bestellung->setGastName($request->get('Gast_Name'));
+            $bestellung->setSammelBestellung($sammelbestellung);
+
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($bestellung);
+            $em->flush();
+
+            $session->set('bestellID', $bestellung);
+
+            if($sammelbestellung instanceof SammelBestellung){
+                $id = $sammelbestellung->getRestaurant()->getId();
+                $session->set('pubLink', $link);
+                return $this->forward('App\Controller\HomeController::gerichte', array('id' => $id, 'publicId' => $link));
+            }
+
         }
+
+        return $this->render('ordercollection/guestname.html.twig', [
+            'link' => $link
+        ]);
+
+
     }
 
 }

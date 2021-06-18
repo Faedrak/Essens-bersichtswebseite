@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Sammelbestellung erstellen{% endblock %}
+
+
+{% block body %}
+
+<div class="container" style="margin-top: 1em;">
+    <form method="post" action="{{ path('setParam', {link: link}) }}">
+        <div class="form-group">
+            <label for="exampleInputEmail1">Vorname</label>
+            <input name="Gast_Name" type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Bitte Nmane eingeben">
+            <small id="emailHelp" class="form-text text-muted">Bitte gibt deinen Nicknamen ein.</small>
+        </div>
+{#        <div class="form-check">
+            <input type="checkbox" class="form-check-input" id="exampleCheck1">
+            <label class="form-check-label" for="exampleCheck1">Check me out</label>
+        </div>#}
+        <button type="submit" class="btn btn-primary">Ok</button>
+    </form>
+</div>
+
+{% endblock %}
