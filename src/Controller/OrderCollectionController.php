@@ -27,9 +27,7 @@ class OrderCollectionController extends AbstractController
     {
         $restaurants = $this->getDoctrine()
         ->getRepository(Restaurant::class)->findAll();
-        
-        $session->set('foo', 'bar');
-
+    
 
         return $this->render('ordercollection/create.html.twig', [
             'controller_name' => 'OrderCollectionController',

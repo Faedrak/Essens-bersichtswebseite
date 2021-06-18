@@ -32,7 +32,13 @@
                                 </p>
 
                                 {% for gv in gericht.GerichtVariationen %}
-                                    <p>{{ gv.Name }} {{ gv.Preis }}€</p>
+                                    <p>{{ gv.Name }} {{ gv.Preis }}€
+                                    
+                                    {% if orderEnabled %}
+                                        <button type="button" class="btn btn-primary">Primary</button>
+                                    {% endif %}
+
+                                    </p>
 
                                 {% endfor %}
                             </div>
