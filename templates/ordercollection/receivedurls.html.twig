@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Links{% endblock %}
+
+
+{% block body %}
+
+<div class="container" style="margin-top: 1em;">
+    <div class="input-group mb-3">
+        <label class="form-check">Öffentliche Url</label>
+        <input id="publicUrl" class="form-control" type="text" placeholder={{ sammelbestellung.PublicURL}} readonly>
+        <div class="input-group-append">
+            <button class="input-group-text" id="basic-addon2">Copy URL</button>
+        </div>
+        <a class="btn btn-success" href="whatsapp://send?text={{ url('setParam', {link: sammelbestellung.PublicURL}, true) }}" data-action="share/whatsapp/share">
+            <i class="fab fa-whatsapp fa-lg">
+            </i>
+        </a>
+    </div>
+
+    <div class="input-group mb-3">
+        <label for="adminUrl">Admin Url</label>
+        <input class="form-control" id="adminUrl" type="text" placeholder={{ sammelbestellung.AdminURL}} readonly>
+        <div class="input-group-append">
+            <button class="input-group-text" id="basic-addon2" onclick="copyToClipboard(adminUrl)">Copy URL</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    function copyToClipboard(text) {
+        var url = document.querySelector('#adminUrl').placeholder;
+        alert(url);
+
+
+  }
+</script>
+
+{% endblock %}

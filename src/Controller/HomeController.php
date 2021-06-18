@@ -34,14 +34,14 @@ class HomeController extends AbstractController
     }
 
     #[Route('/gerichte/{id}', name: 'gerichte')]
-    public function gerichte(int $id, SessionInterface $session) : Response
+    public function gerichte(int $id, SessionInterface $session, bool $orderEnabled = false) : Response
     {
         $restaurant = $this->getDoctrine()->getRepository(Restaurant::class)->findOneBy(['id' => $id]);
-
         $gerichte = $restaurant->getGerichte();
 
         return $this->render('home/gerichte.html.twig', [
-            'gerichte' => $gerichte
+            'gerichte' => $gerichte,
+            'orderEnabled' => $orderEnabled
         ]);
     }
 }

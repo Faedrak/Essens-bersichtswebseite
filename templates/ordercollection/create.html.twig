@@ -6,6 +6,7 @@
 {% block body %}
 
 <div class="container" style="margin-top: 1em;">
+    <h2>Restaurant wählen</h2>
     <div class="row">
     {% for restaurant in restaurants %}
         <div class="col-sm-6">
@@ -18,7 +19,7 @@
                     {% endif %}
                     <p class="card-text">Straße: {{ restaurant.Straße }} {{ restaurant.HausNr }}</p>
                     <p class="card-text">PLZ-Ort: {{ restaurant.ort.plz }} {{ restaurant.ort.ort }}</p>
-                    <a href="{{ path('gerichte', {id: restaurant.id})}}" class="btn btn-primary">Zeige Gerichte</a>
+                    <a href="{{ path('new', {id: restaurant.id})}}" class="btn btn-primary">Wähle Restaurant</a>
                 </div>
             </div>
         </div>

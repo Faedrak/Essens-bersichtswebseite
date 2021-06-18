@@ -1,11 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello HomeController!{% endblock %}
+{% block title %}Einkaufswagen{% endblock %}
 
 {% block body %}
 <style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
     .button{
         text-decoration: none;
         color: #212529;        
@@ -13,19 +11,29 @@
     .button:hover{
         color: #585f65;  
     }
+    .bu2{
+        float:right;
+        
+        
+    }
     .rname{
         display: inline;
         color: #212529;
         text-decoration-line: underline;
         font-size: smaller;
     }
+    
 </style>
 
-<div class="example-wrapper">
-    <img style="max-width: 100%" src="{{asset('img/head.jpg')}}">
+
+<div class="container">
+    <div class="row" id="block">
+        <div class="col-lg-8">
+         <img style="max-width: 100%" src="{{asset('img/head.jpg')}}">
     <h1 style="margin-top: 10px;margin-bottom: 0px;">Ihre Bestellung bei: <p class="rname">{{restaurant_name}}</p></h1>
     <hr style="height:5px;margin-top: 0px;margin-bottom: 10px;">
     <a href="javascript:location.reload(true)" class="button"><i class="fas fa-sync-alt"></i></a>
+    <div class="bu2"><a href="javascript:location.reload(true)" class="button">Restaurant</a></div>
     <p></p>
 
     {% for bestellung in bestellungen %}
@@ -50,8 +58,27 @@
         </table>
 
     {% endfor %}
+        </div>
+        <div class="col-lg-4" id="sidebar"><p>danebemn</p></div>
+    </div>
+</div>
 
 </div>
+
+<script>
+    function toggleit(){
+        sidebar=document.getElementById("sidebar")
+        if( sidebar === null){
+            sidebar.
+        }
+
+    }
+    
+
+
+</script>
+
+
 {% endblock %}
 
 
