@@ -25,8 +25,6 @@ class HomeController extends AbstractController
         $restaurants = $this->getDoctrine()
         ->getRepository(Restaurant::class)->findAll();
 
-        $session->set('foo', 'bar');
-
         return $this->render('home/index.html.twig', [
             'controller_name' => 'HomeController',
             'restaurants' => $restaurants

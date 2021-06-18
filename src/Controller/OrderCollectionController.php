@@ -46,7 +46,6 @@ class OrderCollectionController extends AbstractController
             ]);
         }
 
-
        $restaurant = $this->getDoctrine()->getRepository(Restaurant::class)->find($id); 
 
        $sammelbestellung = new SammelBestellung();
@@ -71,16 +70,12 @@ class OrderCollectionController extends AbstractController
     public function setSessionParam(SessionInterface $session, string $link)
     {
         $sammelbestellung = $this->getDoctrine()->getRepository(SammelBestellung::class)->findOneBy(['PublicURL' => $link]);
+
         if($sammelbestellung instanceof SammelBestellung){
              $id = $sammelbestellung->getRestaurant()->getId();
             $session->set('pubLink', $link);
             return $this->forward('App\Controller\HomeController::gerichte', array('id' => $id, 'orderEnabled' => true));
         }
     }
-
-    // #[Route('/ordercollection/admin/{link}', name: 'setAdmin')]
-    // public function setSessionParam(SessionsInterface){
-
-    // }
 
 }
