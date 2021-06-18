@@ -18,12 +18,8 @@
         </a>
     </div>
 
-    <label>Admin Url</label>
     <div class="input-group mb-3">
-        <text id="adminUrl" class="form-control" type="text" readonly>{{ sammelbestellung.AdminURL }}</text>
-        <div class="input-group-append">
-            <button class="input-group-text" id="basic-addon2">Copy URL</button>
-        </div>
+        <a class="btn btn-primary" href={{ url('setParam', {link: sammelbestellung.PublicURL}) }}>Eigene Bestellung tätigen</a>
     </div>
 </div>
 

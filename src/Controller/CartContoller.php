@@ -17,6 +17,10 @@ class CartContoller extends AbstractController
     public function index(): Response
     {
         $sammelBestellungID=1;
+        $restaurants = $this->getDoctrine()->getRepository(Restaurant::class)->findAll();
+        if($sammelBestellungID == null){
+            return $this->render('home/index.html.twig',['restaurants' => $restaurants]);
+        }
         $sammel_bestellung=$this->getDoctrine()->getRepository(SammelBestellung::class)->find($sammelBestellungID);
         $restaurant=$sammel_bestellung->getRestaurant();
         $bestellungen=$sammel_bestellung->getBestellung();

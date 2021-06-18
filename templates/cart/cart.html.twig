@@ -67,7 +67,7 @@
             {% endfor %}
             <tr>
                 <td style="font-weight:bold;">Zwischensumme</td>
-                <td class="text-end">{{preis}}€</td>
+                <td class="text-end" style="font-weight:bold;">{{preis|number_format(2)}}€</td>
             </tr>
             {% set gesamtpreis = gesamtpreis + preis %}
             {% else %}
@@ -79,16 +79,15 @@
             </tbody>
             </table>
         {% endfor %}
-        <!--
         <table class="table table-striped">
             <thead>
                 <tr>
                     <th scope="col" style="font-size: large;">Gesamtpreis</th>
-                    <th scope="col" class="text-end" style="font-size: large;">{{gesamtpreis}}€</th>
+                    <th scope="col" class="text-end" style="font-size: large;">{{gesamtpreis|number_format(2)}}€</th>
                 </tr>
             </thead>
         </table>
-        -->
+        </div>
         <div class="col-sm-3" id="sidebar" style="display:none;">
             <p style="font-weight:bold;">Restaurant</p>
             <p>{{restaurant.name}}</p>

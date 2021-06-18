@@ -39,12 +39,6 @@ class OrderCollectionController extends AbstractController
     #[Route('/ordercollection/new/{id}', name: 'new')]
     public function new(int $id, SessionInterface $session)
     {
-        if($session->get('sammelbestellung') != null){
-            return $this->render('ordercollection/receivedurls.html.twig', [
-                'controller_name' => 'OrderCollectionController',
-                'sammelbestellung' => $session->get('sammelbestellung')
-            ]);
-        }
 
        $restaurant = $this->getDoctrine()->getRepository(Restaurant::class)->find($id); 
 
@@ -57,10 +51,18 @@ class OrderCollectionController extends AbstractController
        $em = $this->getDoctrine()->getManager();
        $em->persist($restaurant);
        $em->persist($sammelbestellung);
-       $session->set('sammelbestellung', $sammelbestellung);
        $em->flush();
 
-        return $this->render('ordercollection/receivedurls.html.twig', [
+    
+       return $this->redirectToRoute('adminView', array('link' => $sammelbestellung->getAdminURL()));
+    }
+
+    #[Route('/ordercollection/admin/{link}', name: 'adminView')]
+    public function adminView(string $link, SessionInterface $session)
+    {
+        $sammelbestellung = $this->getDoctrine()->getRepository(SammelBestellung::class)->findOneBy(['AdminURL' => $link]);
+
+        return $this->render('ordercollection/adminView.html.twig', [
             'controller_name' => 'OrderCollectionController',
             'sammelbestellung' => $sammelbestellung
         ]);
