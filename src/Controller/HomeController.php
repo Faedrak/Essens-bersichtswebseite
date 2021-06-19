@@ -13,10 +13,15 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use function Symfony\Component\Translation\t;
 
+/**
+ * Class HomeController
+ * Startklasse der Webseite.
+ * @package App\Controller
+ */
 class HomeController extends AbstractController
 {
     /**
-     * Das ist ein Test
+     * ## Index Funktion
      * @param SessionInterface $session Eine Service Injektion für das Management von den PHP Session
      * @return Response
      */
@@ -33,14 +38,14 @@ class HomeController extends AbstractController
     }
 
     #[Route('/gerichte/{id}', name: 'gerichte')]
-    public function gerichte(int $id, SessionInterface $session, bool $inOrderMode = false) : Response
+    public function gerichte(int $id, SessionInterface $session) : Response
     {
         $restaurant = $this->getDoctrine()->getRepository(Restaurant::class)->findOneBy(['id' => $id]);
         $gerichte = $restaurant->getGerichte();
 
         return $this->render('home/gerichte.html.twig', [
             'gerichte' => $gerichte,
-            'inOrderMode' => $inOrderMode
+            'inOrderMode' => false
         ]);
     }
 

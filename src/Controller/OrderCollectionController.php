@@ -15,6 +15,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Request as HttpFoundationRequest;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
@@ -74,9 +75,25 @@ class OrderCollectionController extends AbstractController
     #[Route('/ordercollection/pub/{link}', name: 'setParam')]
     public function setSessionParam(SessionInterface $session, string $link, Request $request)
     {
+        $sammelbestellung = $this->getDoctrine()->getRepository(SammelBestellung::class)->findOneBy(['PublicURL' => $link]);
+
+        if($sammelbestellung == null){
+            throw new NotFoundHttpException('Keine Bestellung mit dem Link gefunden');
+        }
+
+
+        // zur Bestellung zurückkehren, wenn es der gleich Link ist
+        if($session->get('pubLink') != null && $session->get('bestellID')!=null){
+            if($session->get('pubLink') === $link){
+                $id = $sammelbestellung->getRestaurant()->getId();
+                return $this->redirectToRoute('order', array('restaurantID' => $id));
+            }
+        }
+
+
         if($request->get('Gast_Name') != null){
 
-            $sammelbestellung = $this->getDoctrine()->getRepository(SammelBestellung::class)->findOneBy(['PublicURL' => $link]);
+
             $bestellung = new Bestellung();
 
             $bestellung->setGastName($request->get('Gast_Name'));

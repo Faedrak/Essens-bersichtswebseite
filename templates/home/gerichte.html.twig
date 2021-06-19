@@ -74,17 +74,15 @@
 
 
 
-
+        //Filter
         let kategories = new Array();
 
         $(".accordion-item").each(function (){
             let element = $(this).find('.badge').text();
-
             kategories.push(element);
         });
 
         let uniqueKat = new Array();
-
         $.each(kategories, function(i, el){
             if($.inArray(el, uniqueKat) === -1) uniqueKat.push(el);
         });
@@ -93,11 +91,10 @@
             $( "#filter" ).append( "<button class='btn-info btn' onclick='remove(\"" + el +"\")'>" + el + "</button>" );
         });
 
-        $( "#filter" ).append( "<button class='btn-info btn' onclick='reset()'>Zurücksetzen</button>" );
+        $( "#filter" ).append( "<button class='btn-dark btn' onclick='reset()'>Zurücksetzen</button>" );
 
         function remove(kate){
             kate = kate.replaceAll(' ', '');
-
             uniqueKat.forEach(function (element){
                 element = element.replaceAll(' ', '');
                 if(element != kate){
@@ -109,7 +106,6 @@
                     $("." + element).each(function (){
                         $(this).show();
                     });
-
                 }
             });
         }
