@@ -5,11 +5,11 @@
 {% block body %}
 
     <div class="container" style="margin-top: 1em;">
-
+        <div id="filter"></div>
         <table class="table table-hover">
             <tbody>
             {% for gericht in gerichte %}
-                <div class="accordion pt-2" id="accordion-gerichte">
+                <div class="accordion pt-2 {{ gericht.kategorie.Bezeichner | replace({' ': ''}) }}" id="accordion-gerichte">
                     <div class="accordion-item">
                         <h2 class="accordion-header" id="heading{{ gericht.id }}">
                             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
@@ -69,6 +69,58 @@
             row=document.getElementById(id)
             row.scrollIntoView()
             console.log(row.children[0].click())
+        }
+
+
+
+
+
+        let kategories = new Array();
+
+        $(".accordion-item").each(function (){
+            let element = $(this).find('.badge').text();
+
+            kategories.push(element);
+        });
+
+        let uniqueKat = new Array();
+
+        $.each(kategories, function(i, el){
+            if($.inArray(el, uniqueKat) === -1) uniqueKat.push(el);
+        });
+
+        $.each(uniqueKat, function (i, el) {
+            $( "#filter" ).append( "<button class='btn-info btn' onclick='remove(\"" + el +"\")'>" + el + "</button>" );
+        });
+
+        $( "#filter" ).append( "<button class='btn-info btn' onclick='reset()'>Zurücksetzen</button>" );
+
+        function remove(kate){
+            kate = kate.replaceAll(' ', '');
+
+            uniqueKat.forEach(function (element){
+                element = element.replaceAll(' ', '');
+                if(element != kate){
+                    $("." + element).each(function (){
+                        $(this).hide();
+                    });
+                }else {
+                    element = element.replaceAll(' ', '');
+                    $("." + element).each(function (){
+                        $(this).show();
+                    });
+
+                }
+            });
+        }
+
+        function reset(){
+            uniqueKat.forEach(function (element){
+                element = element.replaceAll(' ', '');
+                $("." + element).each(function (){
+                    $(this).show();
+                });
+            })
         }
 
 
