@@ -4,6 +4,9 @@
 
 {% block body %}
 <style>
+    .rhover:hover{
+        background-color: red;
+    }
     .rname{
         display: inline;
         color: #212529;
@@ -27,7 +30,7 @@
       {% if bestellungen != null %}
             <h1 style="margin-top: 10px;margin-bottom: 0px;">Ihre Bestellung bei: <p class="rname">{{restaurant.name}}</p></h1>
             <hr style="height:5px;margin-top: 0px;margin-bottom: 10px;">
-            <a href="javascript:history.back()" class="btn btn-success">Weiter Einkaufen</a>
+            <a  class="btn btn-success {% if app.request.get('_route') == 'currentOrderCollection' %} active {% endif %}" href="{{ path('currentOrderCollection') }}">Weiter Einkaufen</a>
             <a href="javascript:location.reload(true)" class="btn btn-dark"><i class="fas fa-sync-alt fa-1x"></i></a>
             <div style="float:right"><a onclick="toggleit()" class="btn btn-dark">Restaurant Info</a></div>
             <p></p>
@@ -39,6 +42,7 @@
                     <tr>
                         <th scope="col">{{bestellung.GastName}}</th>
                         <th scope="col"></th>
+                        <th scope="col"></th>
                     </tr>
                     </thead>
                     <tbody>
@@ -48,18 +52,22 @@
                                 <td>
                                     <a class="link-dark" href="/gerichte/{{gerichtvari.gericht.restaurant.id}}?id=heading{{gerichtvari.gericht.Nummer}}">{{gerichtvari.gericht.Kategorie.Bezeichner}}: {{gerichtvari.gericht.Name}}: {{gerichtvari.Name}}</a>
                                 </td>
-                                <td class="text-end">{{gerichtvari.preis}}€</td>
+                                <td>{{gerichtvari.preis}}€</td>
+                                <td class="text-end"><a class="rhover btn-sm btn-dark"  href="{{ path('rmItemfromCart', {id: gerichtvari.id}) }}"><i class="fas fa-trash"></i></a></td>
                                 {% set preis = preis + gerichtvari.preis %}
                             </tr>
                         {% endfor %}
                         <tr>
                             <td style="font-weight:bold;">Zwischensumme</td>
+                            <td></td>  
                             <td class="text-end" style="font-weight:bold;">{{preis|number_format(2)}}€</td>
+                            
                         </tr>
                         {% set gesamtpreis = gesamtpreis + preis %}
                     {% else %}
                         <tr>
                             <td>Keine Gerichte gewählt!</td>
+                            <td></td>
                             <td></td>
                         </tr>
                     {% endif %}
@@ -70,7 +78,9 @@
                 <thead>
                 <tr>
                     <th scope="col" style="font-size: large;">Gesamtpreis</th>
+                    <th scope="col"></th>
                     <th scope="col" class="text-end" style="font-size: large;">{{gesamtpreis|number_format(2)}}€</th>
+                    
                 </tr>
                 </thead>
             </table>

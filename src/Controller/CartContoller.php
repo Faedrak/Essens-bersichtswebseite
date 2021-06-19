@@ -19,20 +19,6 @@ class CartContoller extends AbstractController
     #[Route('/cart', name: 'cart')]
     public function index(SessionInterface $session): Response
     {
-/*        $bestllungID =  $session->get('bestellID');
-    
-        
-        $bestellungen = $this->getDoctrine()->getRepository(Bestellung::class)->find($bestllungID);
-
-
-        $sammelBestellungID=$bestellungen->getSammelBestellung()->getId();
-        $restaurants = $this->getDoctrine()->getRepository(Restaurant::class)->findAll();
-        if(is_int($sammelBestellungID) != true){
-            return $this->redirect('/');
-        }
-
-        $sammel_bestellung=$this->getDoctrine()->getRepository(SammelBestellung::class)->find($sammelBestellungID);*/
-
 
         $restaurant = null;
         $bestellungen = null;
@@ -44,12 +30,6 @@ class CartContoller extends AbstractController
             $bestellungen=$sammel_bestellung->getBestellung();
         }
 
-
-
-
-
-
-
         return $this->render('cart/cart.html.twig', [
             'restaurant' => $restaurant,
             'bestellungen'=> $bestellungen
@@ -57,27 +37,38 @@ class CartContoller extends AbstractController
         ]);
     }
 
+    #[Route('/cart/remove/{id}', name: 'rmItemfromCart')]
+    public function rmItem(int $id,SessionInterface $session ){
+        $bestellid=$session->get('bestellID');
+        $bestellung=$this->getDoctrine()->getRepository(Bestellung::class)->find($bestellid);
+        foreach ($bestellung->getGerichtVariation() as $gerichtvari){
+            if ($gerichtvari->getId()==$id){
+                $bestellung->removeGerichtVariation($gerichtvari);
+            }
+        }
+        $em = $this->getDoctrine()->getManager();
+        $em->flush();
+
+
+        
+    
+        return $this->redirectToRoute('cart');
+
+    }
+
     #[Route('/card/add', name: 'addItemToCart')]
     public function addItem(Request $request, SessionInterface $session){
         $gvID = $request->get('cardItem');
 
-
-
         $gerichtVari = $this->getDoctrine()->getRepository(GerichtVariation::class)->find($gvID);
 
         $bestellung = $this->getDoctrine()->getRepository(Bestellung::class)->find($session->get('bestellID'));
-
 
         $bestellung->addGerichtVariation($gerichtVari);
         $em = $this->getDoctrine()->getManager();
         $em->persist($bestellung);
         $em->flush();
 
-
-
-
-
-        /*return $this->forward('App\Controller\HomeController::gerichte', array('id' => $restaurant->getID(), 'publicId' => $publicURL));*/
         return $this->redirectToRoute('order', array('restaurantID' => $bestellung->getSammelBestellung()->getRestaurant()->getId()));
 
     }
