@@ -6,6 +6,7 @@ use App\Entity\Bestellung;
 use App\Entity\GerichtVariation;
 use SebastianBergmann\GlobalState\ExcludeList;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
@@ -19,11 +20,10 @@ class CartContoller extends AbstractController
     #[Route('/cart', name: 'cart')]
     public function index(SessionInterface $session): Response
     {
-
         $restaurant = null;
         $bestellungen = null;
 
-        if($session->get('bestellID') != null){
+        if ($session->get('bestellID') != null) {
             $sammel_bestellung = $this->getDoctrine()->getRepository(Bestellung::class)->find($session->get('bestellID'))->getSammelBestellung();
 
             $restaurant=$sammel_bestellung->getRestaurant();
@@ -38,11 +38,12 @@ class CartContoller extends AbstractController
     }
 
     #[Route('/cart/remove/{id}', name: 'rmItemfromCart')]
-    public function rmItem(int $id,SessionInterface $session ){
+    public function rmItem(int $id, SessionInterface $session): RedirectResponse
+    {
         $bestellid=$session->get('bestellID');
         $bestellung=$this->getDoctrine()->getRepository(Bestellung::class)->find($bestellid);
-        foreach ($bestellung->getGerichtVariation() as $gerichtvari){
-            if ($gerichtvari->getId()==$id){
+        foreach ($bestellung->getGerichtVariation() as $gerichtvari) {
+            if ($gerichtvari->getId()==$id) {
                 $bestellung->removeGerichtVariation($gerichtvari);
             }
         }
@@ -50,14 +51,14 @@ class CartContoller extends AbstractController
         $em->flush();
 
 
-        
-    
-        return $this->redirectToRoute('cart');
 
+
+        return $this->redirectToRoute('cart');
     }
 
     #[Route('/card/add', name: 'addItemToCart')]
-    public function addItem(Request $request, SessionInterface $session){
+    public function addItem(Request $request, SessionInterface $session): RedirectResponse
+    {
         $gvID = $request->get('cardItem');
 
         $gerichtVari = $this->getDoctrine()->getRepository(GerichtVariation::class)->find($gvID);
@@ -70,9 +71,7 @@ class CartContoller extends AbstractController
         $em->flush();
 
         return $this->redirectToRoute('order', array('restaurantID' => $bestellung->getSammelBestellung()->getRestaurant()->getId()));
-
     }
-
 }
 
 /*

@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-
 use App\Entity\Restaurant;
 use App\Entity\SammelBestellung;
 use Doctrine\ORM\PersistentCollection;
@@ -38,7 +37,7 @@ class HomeController extends AbstractController
     }
 
     #[Route('/gerichte/{id}', name: 'gerichte')]
-    public function gerichte(int $id, SessionInterface $session) : Response
+    public function gerichte(int $id, SessionInterface $session): Response
     {
         $restaurant = $this->getDoctrine()->getRepository(Restaurant::class)->findOneBy(['id' => $id]);
         $gerichte = $restaurant->getGerichte();
@@ -61,7 +60,4 @@ class HomeController extends AbstractController
             'inOrderMode' => true
         ]);
     }
-
-
-
 }
