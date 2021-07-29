@@ -40,6 +40,11 @@ class SammelBestellung
      */
     private $Bestellung;
 
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $istOffen;
+
     public function __construct()
     {
         $this->Bestellung = new ArrayCollection();
@@ -112,6 +117,18 @@ class SammelBestellung
                 $bestellung->setSammelBestellung(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getIstOffen(): ?bool
+    {
+        return $this->istOffen;
+    }
+
+    public function setIstOffen(?bool $istOffen): self
+    {
+        $this->istOffen = $istOffen;
 
         return $this;
     }

@@ -6,7 +6,7 @@
 {% block body %}
 
 <div class="container" style="margin-top: 1em;">
-    <label>Öffentliche Url</label> 
+    <label>Öffentliche Url, Verteile sie an die Besteller</label>
     <div class="input-group mb-3">
         <input type="text" class="form-control publicurltext" value={{ url('setParam', {link: sammelbestellung.PublicURL}) }} readonly></input>
         <div class="input-group-append">
@@ -23,6 +23,29 @@
     </div>
 </div>
 
-<script src="{{ asset('js/receivedUrls.js') }}"></script>
+    <div class="container" style="margin-top: 1em;">
+        <label>Admin Url, merke sie dir, um auf diese Seite zurückzukerhen</label>
+        <div class="input-group mb-3">
+            <input type="text" class="form-control publicurltext" value={{ url('adminView', {link: sammelbestellung.AdminUrl}) }} readonly></input>
+            <div class="input-group-append">
+                <button class="input-group-text publicurlbtn" id="basic-addon2">Copy URL</button>
+            </div>
+        </div>
+    </div>
+<div class="container">
+    <div class="row">
+        <div class="col col-auto"><p>Status der Sammelbestellung:</p></div>
+        <div class="col"><b>{{ sammelbestellung.istoffen ? "Es kann noch bestellt werden" : "Es können keine Änderungen mehr vorgenommen werden" }}</b></div>
+        <div class="col">
+            <form method="post" action="{{ url('changeOrdercollection', {state: sammelbestellung.istoffen ? "false" : "true"}) }}">
+                <button class="btn btn-secondary">{{ sammelbestellung.istoffen ? "Sammelbestellung schließen" : "Sammelbestellung wieder öffnen"}}</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+    <script src="{{ asset('js/receivedUrls.js') }}"></script>
 
 {% endblock %}

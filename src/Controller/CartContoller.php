@@ -38,10 +38,16 @@ class CartContoller extends AbstractController
     }
 
     #[Route('/cart/remove/{id}', name: 'rmItemfromCart')]
-    public function rmItem(int $id, SessionInterface $session): RedirectResponse
+    public function rmItem(int $id, SessionInterface $session): Response
     {
         $bestellid=$session->get('bestellID');
         $bestellung=$this->getDoctrine()->getRepository(Bestellung::class)->find($bestellid);
+
+        if($this->checkOrderCollectionisOpen($bestellung->getSammelBestellung())){
+            return $this->render('cart/ordercollectionClosed.html.twig');
+        }
+
+
         foreach ($bestellung->getGerichtVariation() as $gerichtvari) {
             if ($gerichtvari->getId()==$id) {
                 $bestellung->removeGerichtVariation($gerichtvari);
@@ -57,13 +63,18 @@ class CartContoller extends AbstractController
     }
 
     #[Route('/card/add', name: 'addItemToCart')]
-    public function addItem(Request $request, SessionInterface $session): RedirectResponse
+    public function addItem(Request $request, SessionInterface $session): Response
     {
         $gvID = $request->get('cardItem');
 
         $gerichtVari = $this->getDoctrine()->getRepository(GerichtVariation::class)->find($gvID);
 
         $bestellung = $this->getDoctrine()->getRepository(Bestellung::class)->find($session->get('bestellID'));
+
+        if($this->checkOrderCollectionisOpen($bestellung->getSammelBestellung())){
+            return $this->render('cart/ordercollectionClosed.html.twig');
+        }
+
 
         $bestellung->addGerichtVariation($gerichtVari);
         $em = $this->getDoctrine()->getManager();
@@ -72,26 +83,12 @@ class CartContoller extends AbstractController
 
         return $this->redirectToRoute('order', array('restaurantID' => $bestellung->getSammelBestellung()->getRestaurant()->getId()));
     }
+
+    private function checkOrderCollectionisOpen(SammelBestellung $sammelBestellung){
+        return !$sammelBestellung->getIstOffen();
+    }
+
+
+
 }
 
-/*
-
- foreach ($sammel_bestellung->getBestellung() as $bestellung){
-            dump($bestellung->getGastName());
-        }
-
-
-        $array = array('test');
-
-        array_push($array, "value");
-
-        array_push($array, array('wert' => 'value'));
-
-        return new Response(json_encode($array));
-
-        $array2 = [
-            'foo' => 'bar'
-        ];
-
-        $array = array("test", "test2");
-*/

@@ -17,6 +17,7 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Security\Core\Exception\SessionUnavailableException;
 
 class OrderCollectionController extends AbstractController
 {
@@ -47,7 +48,7 @@ class OrderCollectionController extends AbstractController
         $sammelbestellung->setRestaurant($restaurant);
         $sammelbestellung->setPublicURL(bin2hex(openssl_random_pseudo_bytes(16)));
         $sammelbestellung->setAdminURL(bin2hex(openssl_random_pseudo_bytes(16)));
-
+        $sammelbestellung->setIstOffen(true);
 
         $em = $this->getDoctrine()->getManager();
         $em->persist($restaurant);
@@ -124,4 +125,22 @@ class OrderCollectionController extends AbstractController
         }
         return $this->render('ordercollection/nocurrentordercollection.html.twig');
     }
+
+    #[Route('/ordercollection/changeOpen/{state}', name: 'changeOrdercollection')]
+    public function closeOrderCollection(SessionInterface $session, $state){
+        if ($session->get('bestellID') != null) {
+            $bestellung = $this->getDoctrine()->getRepository(Bestellung::class)->find($session->get('bestellID'));
+            $sammelBestellung = $bestellung->getSammelBestellung();
+
+            $sammelBestellung->setistOffen(filter_var($state, FILTER_VALIDATE_BOOL));
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($sammelBestellung);
+            $em->flush();
+
+        }
+        return $this->redirectToRoute('adminView', ["link" => $sammelBestellung->getAdminUrl()]);
+    }
+
+
+
 }
