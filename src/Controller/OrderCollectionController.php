@@ -112,6 +112,7 @@ class OrderCollectionController extends AbstractController
             'link' => $link
         ]);
     }
+
     #[Route('/ordercollection/current', name: 'currentOrderCollection')]
     public function currentOrderCollection(SessionInterface $session): Response
     {
