@@ -55,7 +55,6 @@ class HomeController extends AbstractController
         $restaurant = $this->getDoctrine()->getRepository(Restaurant::class)->findOneBy(['id' => $restaurantID]);
         $gerichte = $restaurant->getGerichte();
 
-
         return $this->render('home/gerichte.html.twig', [
             'restaurant' => $restaurant,
             'gerichte' => $gerichte,
