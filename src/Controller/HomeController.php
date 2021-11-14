@@ -30,7 +30,7 @@ class HomeController extends AbstractController
         $restaurants = $this->getDoctrine()
         ->getRepository(Restaurant::class)->findAll();
 
-        dump($this->getUser());
+
 
         return $this->render('home/index.html.twig', [
             'controller_name' => 'HomeController',
