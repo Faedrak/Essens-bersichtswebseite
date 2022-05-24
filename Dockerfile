@@ -1,7 +1,7 @@
 FROM php:8.1-fpm-alpine as symfony_php
 
 RUN docker-php-ext-install pdo pdo_mysql
-
+RUN apk update && apk add bash
 
 VOLUME [ "/var/www" ] 
 WORKDIR /var/www
@@ -24,4 +24,4 @@ RUN set -eux; \
 RUN chmod -R 777 var;
 
 RUN chmod +x ./docker/php/entrypoint.sh
-CMD ["sh", "/var/www/docker/php/entrypoint.sh"]
+#RUN bash /var/www/docker/php/entrypoint.sh
