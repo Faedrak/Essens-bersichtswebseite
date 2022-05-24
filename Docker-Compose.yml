@@ -1,0 +1,39 @@
+version: "3.4"
+
+services:
+  php:
+    build: .
+    volumes:
+      - app:/var/www
+    environment:
+      DATABASE_URL: mysql://root:abc123@app_db/ovm_Essens-bersichtswebseite?serverVersion=mariadb-10.8.3
+      APP_ENV: prod
+    expose:
+      - 9000
+    links:
+      - app_db
+    depends_on:
+      - app_db
+  
+  nginx:
+    build: ./docker/nginx/
+    ports:
+      - '8080:80'
+    volumes:
+      - app:/var/www
+    links:
+      - php
+    depends_on:
+      - php
+
+  app_db:
+    image: mariadb:latest 
+    volumes:
+      - ./docker/db/dump.sql:/docker-entrypoint-initdb.d/dump.sql
+    environment:
+      MARIADB_ROOT_PASSWORD: abc123
+
+
+
+volumes:
+  app:
