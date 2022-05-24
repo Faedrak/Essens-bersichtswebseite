@@ -1,19 +1,23 @@
-version: "3.7"
+version: "3.8"
 name: "foodserver"
 services:
-  webserver:
-    image: essen-app
+  essen-webserver:
+    build:
+      context: ./
+      dockerfile: ./docker/PHP/Dockerfile
     ports:
       - "8080:80"
     environment:
-      DATABASE_URL: mysql://root:abc123@mariadb:3306/ovm_Essens-bersichtswebseite?serverVersion=mariadb-10.8.3
+      APP_ENV: dev
             
-  mariadb:
-    image: mariadb
-    environment:
-      MYSQL_ROOT_PASSWORD: abc123
+  essen-dbserver:
+    build: 
+      context: ./
+      dockerfile: ./docker/DB/Dockerfile
     volumes:
       - essenDB:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: abc123
     # ports:
     #   - "3306:3306"
 
