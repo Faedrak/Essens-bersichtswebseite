@@ -23,3 +23,5 @@ RUN set -eux; \
 
 RUN chmod -R 777 var;
 
+RUN chmod +x ./docker/php/entrypoint.sh
+CMD ["sh", "/var/www/docker/php/entrypoint.sh"]

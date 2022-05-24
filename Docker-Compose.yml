@@ -28,8 +28,6 @@ services:
 
   app_db:
     image: mariadb:latest 
-    volumes:
-      - ./docker/db/dump.sql:/docker-entrypoint-initdb.d/dump.sql
     environment:
       MARIADB_ROOT_PASSWORD: abc123
 
