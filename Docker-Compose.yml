@@ -30,8 +30,11 @@ services:
     image: mariadb:latest 
     environment:
       MARIADB_ROOT_PASSWORD: abc123
+    volumes:
+      - essenDB:/var/lib/mysql
 
 
 
 volumes:
   app:
+  essenDB:
