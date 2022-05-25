@@ -27,11 +27,13 @@ services:
       - php
 
   app_db:
-    image: mariadb:latest 
-    environment:
-      MARIADB_ROOT_PASSWORD: abc123
+    build: 
+      context: ./docker/DB
+      dockerfile: ./Dockerfile
     volumes:
       - essenDB:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: abc123
 
 
 
