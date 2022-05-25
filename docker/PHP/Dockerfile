@@ -1,11 +1,13 @@
 FROM composer
 
-ENV DATABASE_URL=mysql://root:abc123@database:3306/ovm_Essens-bersichtswebseite?serverVersion=mysql-8.0.29
+RUN docker-php-ext-install pdo pdo_mysql
+
+ENV DATABASE_URL=mysql://root:abc123@essen-dbserver:3306/ovm_Essens-bersichtswebseite?serverVersion=8.0.29
 
 WORKDIR /Essens-bersichtswebseite
 COPY . . 
 
-RUN ls
+RUN composer update --no-interaction
 
 WORKDIR /Essens-bersichtswebseite/public
 

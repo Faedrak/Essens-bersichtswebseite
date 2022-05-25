@@ -12,8 +12,8 @@ services:
             
   essen-dbserver:
     build: 
-      context: ./
-      dockerfile: ./docker/DB/Dockerfile
+      context: ./docker/DB
+      dockerfile: ./Dockerfile
     volumes:
       - essenDB:/var/lib/mysql
     environment:
