@@ -6,7 +6,7 @@ RUN docker-php-ext-install pdo pdo_mysql
 VOLUME [ "/var/www" ] 
 WORKDIR /var/www
 
-ENV DATABASE_URL=mysql://root:abc123@app_db/app?serverVersion=mariadb-10.8.3
+ENV DATABASE_URL=mysql://root:abc123@app_db/app?serverVersion=8.0.29
 
 COPY . .
 

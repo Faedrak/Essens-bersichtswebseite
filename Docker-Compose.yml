@@ -6,7 +6,7 @@ services:
     volumes:
       - app:/var/www
     environment:
-      DATABASE_URL: mysql://root:abc123@app_db/ovm_Essens-bersichtswebseite?serverVersion=mariadb-10.8.3
+      DATABASE_URL: mysql://root:abc123@app_db/ovm_Essens-bersichtswebseite?serverVersion=8.0.29
       APP_ENV: prod
     expose:
       - 9000
@@ -27,6 +27,7 @@ services:
       - php
 
   app_db:
+    platform: linux/amd64
     build: 
       context: ./docker/DB
       dockerfile: ./Dockerfile
